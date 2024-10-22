@@ -1,0 +1,27 @@
+# Created by https://www.toptal.com/developers/gitignore/api/xcode,swift
+# Edit at https://www.toptal.com/developers/gitignore?templates=xcode,swift
+
+# Xcode user data
+*.xcuserdata/
+*.xcuserdatad/
+xcuserdata/
+xcuserdatad/
+
+# Xcode workspace
+*.xcworkspace/
+
+# Package manager files
+Package.resolved
+
+# Xcode project files
+*.pbxproj
+
+# IDE settings
+*.xcscheme
+IDEFindNavigatorScopes.plist
+## Playgrounds
+timeline.xctimeline
+playground.xcworkspace
+
+# Swift Package Manager
+.build/
