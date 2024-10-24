@@ -13,10 +13,12 @@
 		DA2EFD102CC628B200078B96 /* LanguageKit in Frameworks */ = {isa = PBXBuildFile; productRef = DA2EFD0F2CC628B200078B96 /* LanguageKit */; };
 		DA31B3392CBB6AA500198482 /* AtlasConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = DA31B3382CBB6AA500198482 /* AtlasConfig.plist */; };
 		DA8FD4ED2CB9E665007E5C87 /* OpenAI in Frameworks */ = {isa = PBXBuildFile; productRef = DA8FD4EC2CB9E665007E5C87 /* OpenAI */; };
+		DA94C3382CC9EC1800942940 /* SwiftAnthropic in Frameworks */ = {isa = PBXBuildFile; productRef = DA94C3372CC9EC1800942940 /* SwiftAnthropic */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		DA2D8DF02CC72B530051CD2F /* LanguageKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = LanguageKit; sourceTree = "<group>"; };
+		DA2D8DF22CC7405F0051CD2F /* Playground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Playground.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		DA31B3382CBB6AA500198482 /* AtlasConfig.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = AtlasConfig.plist; sourceTree = "<group>"; };
 		DA8FD4C82CB8A066007E5C87 /* Kana.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kana.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -39,6 +41,7 @@
 				DA2EFD102CC628B200078B96 /* LanguageKit in Frameworks */,
 				DA2EFD092CC6271E00078B96 /* LanguageKit in Frameworks */,
 				DA2EFD0C2CC6278500078B96 /* LanguageKit in Frameworks */,
+				DA94C3382CC9EC1800942940 /* SwiftAnthropic in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -48,6 +51,7 @@
 		DA8FD4BF2CB8A066007E5C87 = {
 			isa = PBXGroup;
 			children = (
+				DA2D8DF22CC7405F0051CD2F /* Playground.playground */,
 				DA2D8DF02CC72B530051CD2F /* LanguageKit */,
 				DA8FD4CA2CB8A066007E5C87 /* Kana */,
 				DA8FD4C92CB8A066007E5C87 /* Products */,
@@ -88,6 +92,7 @@
 				DA2EFD082CC6271E00078B96 /* LanguageKit */,
 				DA2EFD0B2CC6278500078B96 /* LanguageKit */,
 				DA2EFD0F2CC628B200078B96 /* LanguageKit */,
+				DA94C3372CC9EC1800942940 /* SwiftAnthropic */,
 			);
 			productName = Kana;
 			productReference = DA8FD4C82CB8A066007E5C87 /* Kana.app */;
@@ -119,6 +124,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				DA8FD4EB2CB9E665007E5C87 /* XCRemoteSwiftPackageReference "OpenAI" */,
+				DA94C3362CC9EC1800942940 /* XCRemoteSwiftPackageReference "SwiftAnthropic" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = DA8FD4C92CB8A066007E5C87 /* Products */;
@@ -375,6 +381,14 @@
 				minimumVersion = 0.3.0;
 			};
 		};
+		DA94C3362CC9EC1800942940 /* XCRemoteSwiftPackageReference "SwiftAnthropic" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/jamesrochabrun/SwiftAnthropic";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.8.4;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -398,6 +412,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = DA8FD4EB2CB9E665007E5C87 /* XCRemoteSwiftPackageReference "OpenAI" */;
 			productName = OpenAI;
+		};
+		DA94C3372CC9EC1800942940 /* SwiftAnthropic */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DA94C3362CC9EC1800942940 /* XCRemoteSwiftPackageReference "SwiftAnthropic" */;
+			productName = SwiftAnthropic;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

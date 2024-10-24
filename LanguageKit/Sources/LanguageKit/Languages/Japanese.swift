@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Japanese: Language {
+public struct Japanese: LanguageDescriptor {
     
     public var name: String = "Japanese"
     public var code: String = "ja"
@@ -23,25 +23,28 @@ public struct Japanese: Language {
 extension Japanese: SentenceStructured {
     
     public struct Sentence: SyntacticUnit, GrammaticalStructureCategorizable, GrammaticalFunctionCategorizable, GrammaticalUnitComposable {
+        public typealias Language = Japanese
         public typealias StructureCategory = SentenceStructureCategory
         public typealias FunctionCategory = SentenceFunctionCategory
-        
-        public static let childTypes: [GrammaticalUnit.Type] = [Clause.self]
+        public typealias Child = Clause
         
         public var content: String
-        
         public var structure: StructureCategory
         public var function: FunctionCategory
         
-        public init(content: String, structure: StructureCategory, function: FunctionCategory) {
+        public var children: [Child]
+        
+        public init(content: String, structure: StructureCategory, function: FunctionCategory, children: [Child]) {
             self.content = content
             self.structure = structure
             self.function = function
+            self.children = children
         }
     }
     
     // TODO: - review list of sentence structure categories
-    public enum SentenceStructureCategory: GrammaticalStructureCategory {
+    public enum SentenceStructureCategory: String, GrammaticalStructureCategory {
+        
         /// A simple sentence (単文 tanbun) consists of a single independent clause with one subject and one predicate.
         /// It expresses a complete thought in its most basic form.
         ///
@@ -65,7 +68,7 @@ extension Japanese: SentenceStructured {
     }
     
     // TODO: - review list of sentence function categories
-    public enum SentenceFunctionCategory: GrammaticalFunctionCategory {
+    public enum SentenceFunctionCategory: String, GrammaticalFunctionCategory {
         /// A declarative sentence (平叙文 heijobun) makes a statement or expresses an opinion. It's the most common type of sentence.
         ///
         /// - Example: 東京は日本の首都です。(Tōkyō wa Nihon no shuto desu.): Tokyo is the capital of Japan.
@@ -99,27 +102,27 @@ extension Japanese: SentenceStructured {
 extension Japanese: ClauseStructured {
 
     public struct Clause: SyntacticUnit, GrammaticalStructureCategorizable, GrammaticalFunctionCategorizable, GrammaticalUnitComposable {
-        
+        public typealias Language = Japanese
         public typealias StructureCategory = ClauseStructureCategory
         public typealias FunctionCategory = ClauseFunctionCategory
-//        typealias ChildGrammaticalUnit = Clause
-        public static let childTypes: [GrammaticalUnit.Type] = [Phrase.self]
+        public typealias Child = Phrase
         
         public var content: String
-//        public var children: [Phrase]
-        
         public var structure: StructureCategory
         public var function: FunctionCategory
         
-        public init(content: String, structure: StructureCategory, function: FunctionCategory) {
+        public var children: [Child]
+        
+        public init(content: String, structure: StructureCategory, function: FunctionCategory, children: [Child]) {
             self.content = content
             self.structure = structure
             self.function = function
+            self.children = children
         }
     }
     
     // TODO: - review list of clause structure categories
-    public enum ClauseStructureCategory: GrammaticalStructureCategory {
+    public enum ClauseStructureCategory: String, GrammaticalStructureCategory {
         /// A main clause (主節 shusetsu) is an independent clause that can stand alone as a complete sentence.
         /// It contains the main subject and predicate of a sentence.
         ///
@@ -158,8 +161,8 @@ extension Japanese: ClauseStructured {
     }
     
     // TODO: - review list of clause function categories
-    public enum ClauseFunctionCategory: GrammaticalFunctionCategory {
-        // will implement
+    public enum ClauseFunctionCategory: String, GrammaticalFunctionCategory {
+        case unknown
     }
 }
 
@@ -168,22 +171,24 @@ extension Japanese: ClauseStructured {
 
 extension Japanese: PhraseStructured {
     
-    public struct Phrase: SyntacticUnit, GrammaticalStructureCategorizable {
+    public struct Phrase: SyntacticUnit, GrammaticalStructureCategorizable, GrammaticalUnitComposable {
+        public typealias Language = Japanese
         public typealias StructureCategory = PhraseStructureCategory
-        
-//        typealias ChildGrammaticalUnit = Word
-        public static let childTypes: [GrammaticalUnit.Type] = [Word.self, Particle.self]
+        public typealias Child = Word
         
         public var content: String
         public var structure: StructureCategory
         
-        public init(content: String, structure: StructureCategory) {
+        public var children: [Child]
+        
+        public init(content: String, structure: StructureCategory, children: [Child]) {
             self.content = content
             self.structure = structure
+            self.children = children
         }
     }
     
-    public enum PhraseStructureCategory: GrammaticalStructureCategory {
+    public enum PhraseStructureCategory: String, GrammaticalStructureCategory {
         
         /// A noun phrase (名詞句 meishiku) is a group of words that function as a noun in a sentence.
         /// It typically consists of a noun and its modifiers.
@@ -223,21 +228,25 @@ extension Japanese: PhraseStructured {
 // MARK: - Word
 
 extension Japanese: WordStructured {
-    
-    public struct Word: SyntacticUnit, GrammaticalFunctionCategorizable {
+
+    public struct Word: SyntacticUnit, GrammaticalFunctionCategorizable, GrammaticalUnitComposable {
+        public typealias Language = Japanese
         public typealias FunctionCategory = WordFunctionCategory
-//        typealias ChildGrammaticalUnit = Morpheme
+        public typealias Child = Morpheme
         
         public var content: String
         public var function: FunctionCategory
         
-        public init(content: String, function: FunctionCategory) {
+        public var children: [Child]
+        
+        public init(content: String, function: FunctionCategory, children: [Child]) {
             self.content = content
             self.function = function
+            self.children = children
         }
     }
     
-    public enum WordFunctionCategory: GrammaticalFunctionCategory {
+    public enum WordFunctionCategory: String, GrammaticalFunctionCategory {
         
         /// A noun (名詞 meishi) is a word that represents a person, place, thing, or idea. In Japanese, nouns do not
         /// have grammatical gender or number, and can often function as other parts of speech when combined with particles.
@@ -308,7 +317,7 @@ extension Japanese: WordStructured {
         ///
         /// - Example: は (wa): topic marker
         ///     - 私は学生です。(Watashi wa gakusei desu.): I am a student.
-        case particle(Particle)
+        case particle//(category: Particle)
         
         /// An auxiliary verb (助動詞 jodōshi) is a verb that adds functional or grammatical meaning to the main verb in a clause.
         /// In Japanese, auxiliary verbs often express aspect, voice, or mood.
@@ -326,11 +335,11 @@ extension Japanese: WordStructured {
 extension Japanese: ParticleUsing {
     
     public struct Particle: SyntacticUnit, GrammaticalFunctionCategorizable {
-        
+        public typealias Language = Japanese
         public var content: String
         public var function: FunctionCategory
         
-        public enum FunctionCategory: GrammaticalFunctionCategory {
+        public enum FunctionCategory: String, GrammaticalFunctionCategory {
             /// Case-marking particles (格助詞, kaku-joshi) attach to nouns and noun phrases to indicate their grammatical function
             /// within a sentence.
             ///
@@ -476,19 +485,24 @@ extension Japanese: ParticleUsing {
 // MARK: - Morpheme
 
 extension Japanese: MorphemeStructured {
-
+    
     public struct Morpheme: MorphologicalUnit, GrammaticalStructureCategorizable, GrammaticalFunctionCategorizable {
+        public typealias Language = Japanese
+        
         public var content: String
         public var structure: MorphemeStructureCategory
         public var function: MorphemeFunctionCategory
         
     }
     
-    public enum MorphemeStructureCategory: GrammaticalStructureCategory {
+    public enum MorphemeStructureCategory: String, GrammaticalStructureCategory {
         // will implement
+        case unknown
     }
-    public enum MorphemeFunctionCategory: GrammaticalFunctionCategory {
+    
+    public enum MorphemeFunctionCategory: String, GrammaticalFunctionCategory {
         // will implement
+        case unknown
     }
     
 }

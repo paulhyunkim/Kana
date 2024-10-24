@@ -57,7 +57,7 @@ public protocol SpokenLanguageProtocol {
     var hasTones: Bool { get }
 }
 
-public extension Language {
+public extension LanguageDescriptor {
     var hasHonorifics: Bool {
         self is (any HonorificBasedLanguage)
     }
@@ -65,7 +65,7 @@ public extension Language {
 
 /// A protocol indicating that a language has sentences as part of its syntactic structure.
 /// Conforming types must define a `Sentence` type that represents a complete syntactic structure in the language.
-public protocol SentenceStructured: Language {
+public protocol SentenceStructured {
     /// The type representing a sentence in the language.
     associatedtype Sentence: SyntacticUnit
 }
@@ -107,7 +107,7 @@ public protocol ParticleUsing {
 
 /// A protocol representing a language and its fundamental characteristics.
 /// Conforming types must specify language attributes.
-public protocol Language {
+public protocol LanguageDescriptor {
 
     /// The name of the language (e.g., "English", "Japanese").
     var name: String { get }
