@@ -64,3 +64,79 @@ struct TranslationTask<Language: LanguageDescriptor>: LanguageTask {
     }
 }
 
+extension PromptTemplate.Section {
+    func replacingPlaceholders(with values: [String: String]) -> String {
+        var content = self.content
+        
+        // Replace required parameters
+        for param in requiredParameters {
+            if let value = values[param] {
+                content = content.replacingOccurrences(of: "{{\(param)}}", with: value)
+            }
+        }
+        
+        // Replace optional parameters
+        for param in optionalParameters {
+            if let value = values[param] {
+                content = content.replacingOccurrences(of: "{{\(param)}}", with: value)
+            }
+        }
+        
+        return content
+    }
+}
+
+//extension PromptTemplate.Message {
+//    func build(with values: [String: String]) -> String {
+//        sections
+//            .filter { section in
+//                // Keep section if it has any required parameters
+//                !section.requiredParameters.isEmpty ||
+//                // Or if it has optional parameters that have values
+//                section.optionalParameters.contains(where: values.keys.contains)
+//            }
+//            .map { section in
+//                let processedContent = section.replacingPlaceholders(with: values)
+//                    .components(separatedBy: .newlines)
+//                    .map { $0.trimmingCharacters(in: .whitespaces) }
+//                    .filter { !$0.isEmpty }
+//                    .joined(separator: "\n")
+//                
+//                return """
+//                <\(section.name)>
+//                \(processedContent)
+//                </\(section.name)>
+//                """
+//            }
+//            .joined(separator: "\n\n")
+//    }
+//}
+
+extension PromptTemplate.Message {
+    func build(with values: [String: String]) -> String {
+        sections
+            .filter { section in
+                // Keep section if:
+                // 1. It has any content (non-optional sections without parameters)
+                // 2. OR if it has required parameters (which we know have values due to validation)
+                // 3. OR if it has optional parameters with provided values
+                !section.content.trimmingCharacters(in: .whitespaces).isEmpty ||
+                !section.requiredParameters.isEmpty ||
+                section.optionalParameters.contains(where: values.keys.contains)
+            }
+            .map { section in
+                let processedContent = section.replacingPlaceholders(with: values)
+                    .components(separatedBy: .newlines)
+                    .map { $0.trimmingCharacters(in: .whitespaces) }
+                    .filter { !$0.isEmpty }
+                    .joined(separator: "\n")
+                
+                return """
+                <\(section.name)>
+                \(processedContent)
+                </\(section.name)>
+                """
+            }
+            .joined(separator: "\n\n")
+    }
+}

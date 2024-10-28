@@ -6,11 +6,8 @@
 //
 
 import SwiftUI
-//import RealmSwift
 
 struct ContentView: View {
-    
-//    @AsyncOpen(appId: "kana-cmxirqo", timeout: 4000) var asyncOpen
     
     var body: some View {
         

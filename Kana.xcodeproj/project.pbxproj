@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		DA0606D32CC6259000B9FB70 /* LanguageKit in Frameworks */ = {isa = PBXBuildFile; productRef = DA0606D22CC6259000B9FB70 /* LanguageKit */; };
-		DA31B3392CBB6AA500198482 /* AtlasConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = DA31B3382CBB6AA500198482 /* AtlasConfig.plist */; };
 		DA5566992CCC7CBF0031D988 /* LanguageKit in Frameworks */ = {isa = PBXBuildFile; productRef = DA2EFD082CC6271E00078B96 /* LanguageKit */; };
 		DA55669A2CCC7CBF0031D988 /* LanguageKit in Frameworks */ = {isa = PBXBuildFile; productRef = DA2EFD0B2CC6278500078B96 /* LanguageKit */; };
 		DA55669B2CCC7CBF0031D988 /* LanguageKit in Frameworks */ = {isa = PBXBuildFile; productRef = DA2EFD0F2CC628B200078B96 /* LanguageKit */; };
@@ -20,7 +19,6 @@
 /* Begin PBXFileReference section */
 		DA2D8DF02CC72B530051CD2F /* LanguageKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = LanguageKit; sourceTree = "<group>"; };
 		DA2D8DF22CC7405F0051CD2F /* Playground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Playground.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
-		DA31B3382CBB6AA500198482 /* AtlasConfig.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = AtlasConfig.plist; sourceTree = "<group>"; };
 		DA8FD4C82CB8A066007E5C87 /* Kana.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kana.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -57,7 +55,6 @@
 				DA2D8DF02CC72B530051CD2F /* LanguageKit */,
 				DA8FD4CA2CB8A066007E5C87 /* Kana */,
 				DA8FD4C92CB8A066007E5C87 /* Products */,
-				DA31B3382CBB6AA500198482 /* AtlasConfig.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -145,7 +142,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DA31B3392CBB6AA500198482 /* AtlasConfig.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
