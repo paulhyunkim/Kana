@@ -8,10 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		DA0606D32CC6259000B9FB70 /* LanguageKit in Frameworks */ = {isa = PBXBuildFile; productRef = DA0606D22CC6259000B9FB70 /* LanguageKit */; };
-		DA2EFD092CC6271E00078B96 /* LanguageKit in Frameworks */ = {isa = PBXBuildFile; productRef = DA2EFD082CC6271E00078B96 /* LanguageKit */; };
-		DA2EFD0C2CC6278500078B96 /* LanguageKit in Frameworks */ = {isa = PBXBuildFile; productRef = DA2EFD0B2CC6278500078B96 /* LanguageKit */; };
-		DA2EFD102CC628B200078B96 /* LanguageKit in Frameworks */ = {isa = PBXBuildFile; productRef = DA2EFD0F2CC628B200078B96 /* LanguageKit */; };
 		DA31B3392CBB6AA500198482 /* AtlasConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = DA31B3382CBB6AA500198482 /* AtlasConfig.plist */; };
+		DA5566992CCC7CBF0031D988 /* LanguageKit in Frameworks */ = {isa = PBXBuildFile; productRef = DA2EFD082CC6271E00078B96 /* LanguageKit */; };
+		DA55669A2CCC7CBF0031D988 /* LanguageKit in Frameworks */ = {isa = PBXBuildFile; productRef = DA2EFD0B2CC6278500078B96 /* LanguageKit */; };
+		DA55669B2CCC7CBF0031D988 /* LanguageKit in Frameworks */ = {isa = PBXBuildFile; productRef = DA2EFD0F2CC628B200078B96 /* LanguageKit */; };
+		DA8BB12D2CCC7C1400E301DE /* LanguageKit in Frameworks */ = {isa = PBXBuildFile; productRef = DA8BB12C2CCC7C1400E301DE /* LanguageKit */; };
 		DA8FD4ED2CB9E665007E5C87 /* OpenAI in Frameworks */ = {isa = PBXBuildFile; productRef = DA8FD4EC2CB9E665007E5C87 /* OpenAI */; };
 		DA94C3382CC9EC1800942940 /* SwiftAnthropic in Frameworks */ = {isa = PBXBuildFile; productRef = DA94C3372CC9EC1800942940 /* SwiftAnthropic */; };
 /* End PBXBuildFile section */
@@ -36,12 +37,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA55669B2CCC7CBF0031D988 /* LanguageKit in Frameworks */,
+				DA55669A2CCC7CBF0031D988 /* LanguageKit in Frameworks */,
+				DA5566992CCC7CBF0031D988 /* LanguageKit in Frameworks */,
 				DA8FD4ED2CB9E665007E5C87 /* OpenAI in Frameworks */,
 				DA0606D32CC6259000B9FB70 /* LanguageKit in Frameworks */,
-				DA2EFD102CC628B200078B96 /* LanguageKit in Frameworks */,
-				DA2EFD092CC6271E00078B96 /* LanguageKit in Frameworks */,
-				DA2EFD0C2CC6278500078B96 /* LanguageKit in Frameworks */,
 				DA94C3382CC9EC1800942940 /* SwiftAnthropic in Frameworks */,
+				DA8BB12D2CCC7C1400E301DE /* LanguageKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -93,6 +95,7 @@
 				DA2EFD0B2CC6278500078B96 /* LanguageKit */,
 				DA2EFD0F2CC628B200078B96 /* LanguageKit */,
 				DA94C3372CC9EC1800942940 /* SwiftAnthropic */,
+				DA8BB12C2CCC7C1400E301DE /* LanguageKit */,
 			);
 			productName = Kana;
 			productReference = DA8FD4C82CB8A066007E5C87 /* Kana.app */;
@@ -125,6 +128,7 @@
 			packageReferences = (
 				DA8FD4EB2CB9E665007E5C87 /* XCRemoteSwiftPackageReference "OpenAI" */,
 				DA94C3362CC9EC1800942940 /* XCRemoteSwiftPackageReference "SwiftAnthropic" */,
+				DA8BB12B2CCC7C1400E301DE /* XCLocalSwiftPackageReference "../LanguageKit" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = DA8FD4C92CB8A066007E5C87 /* Products */;
@@ -372,6 +376,13 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCLocalSwiftPackageReference section */
+		DA8BB12B2CCC7C1400E301DE /* XCLocalSwiftPackageReference "../LanguageKit" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../LanguageKit;
+		};
+/* End XCLocalSwiftPackageReference section */
+
 /* Begin XCRemoteSwiftPackageReference section */
 		DA8FD4EB2CB9E665007E5C87 /* XCRemoteSwiftPackageReference "OpenAI" */ = {
 			isa = XCRemoteSwiftPackageReference;
@@ -405,6 +416,10 @@
 			productName = LanguageKit;
 		};
 		DA2EFD0F2CC628B200078B96 /* LanguageKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = LanguageKit;
+		};
+		DA8BB12C2CCC7C1400E301DE /* LanguageKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = LanguageKit;
 		};

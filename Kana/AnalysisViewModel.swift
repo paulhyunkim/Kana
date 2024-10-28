@@ -110,15 +110,7 @@ class WordAnalysis<Language: WordStructured>: GrammaticalUnitAnalysis {
     }
 }
 
-func test() {
-    let word = Japanese.Word(content: "私は、あなたには、私の名前を呼んでください。", function: .adjectivalNoun)
-    let analysis = WordAnalysis<Japanese>(unit: word)
-    
-    analysis.transcription = ""
-}
-
-
-protocol SentenceAnalyzable: Language {
+protocol SentenceAnalyzable: LanguageDescriptor {
     associatedtype SentenseAnalysis: GrammaticalUnitAnalysis
 }
 

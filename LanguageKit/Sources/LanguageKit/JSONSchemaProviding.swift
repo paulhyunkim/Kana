@@ -22,7 +22,10 @@ public protocol JSONSchemaProviding {
 
 private extension JSONSchemaProviding {
     /// Creates a standard JSON Schema object definition
-    static func makeObjectSchema(properties: [String: Any], required: [String]? = nil) -> [String: Any] {
+    static func makeObjectSchema(
+        properties: Dictionary<String, Any>,
+        required: [String]? = nil
+    ) -> Dictionary<String, Any> {
         var schema: [String: Any] = [
             "title": schemaTitle,
             "description": schemaDescription,
@@ -38,7 +41,9 @@ private extension JSONSchemaProviding {
     }
     
     /// Creates a JSON Schema array definition
-    static func makeArraySchema(items: [String: Any]) -> [String: Any] {
+    static func makeArraySchema(
+        items: Dictionary<String, Any>
+    ) -> Dictionary<String, Any> {
         [
             "type": "array",
             "items": items
@@ -50,7 +55,7 @@ private extension JSONSchemaProviding {
         for type: T.Type,
         title: String,
         description: String
-    ) -> [String: Any] {
+    ) -> Dictionary<String, Any> {
         [
             "title": title,
             "description": description,
@@ -63,7 +68,7 @@ private extension JSONSchemaProviding {
 // MARK: - Base GrammaticalUnit Implementation
 
 extension JSONSchemaProviding where Self: GrammaticalUnit {
-    public static var jsonSchema: [String: Any] {
+    public static var jsonSchema: Dictionary<String, Any> {
         makeObjectSchema(
             properties: [
                 "type": [
@@ -83,7 +88,7 @@ extension JSONSchemaProviding where Self: GrammaticalUnit {
 // MARK: - Structure Categorizable Implementation
 
 extension JSONSchemaProviding where Self: GrammaticalUnit & GrammaticalStructureCategorizable {
-    public static var jsonSchema: [String: Any] {
+    public static var jsonSchema: Dictionary<String, Any> {
         let properties = [
             "type": [
                 "type": "string",
@@ -110,7 +115,7 @@ extension JSONSchemaProviding where Self: GrammaticalUnit & GrammaticalStructure
 // MARK: - Function Categorizable Implementation
 
 extension JSONSchemaProviding where Self: GrammaticalUnit & GrammaticalFunctionCategorizable {
-    public static var jsonSchema: [String: Any] {
+    public static var jsonSchema: Dictionary<String, Any> {
         let properties = [
             "type": [
                 "type": "string",
@@ -136,8 +141,8 @@ extension JSONSchemaProviding where Self: GrammaticalUnit & GrammaticalFunctionC
 
 // MARK: - Composable Implementation
 
-extension JSONSchemaProviding where Self: GrammaticalUnit & GrammaticalUnitComposable, Child: JSONSchemaProviding {
-    public static var jsonSchema: [String: Any] {
+extension JSONSchemaProviding where Self: GrammaticalUnit & GrammaticalUnitComposable, ChildGrammaticalUnit: JSONSchemaProviding {
+    public static var jsonSchema: Dictionary<String, Any> {
         let properties = [
             "type": [
                 "type": "string",
@@ -147,7 +152,7 @@ extension JSONSchemaProviding where Self: GrammaticalUnit & GrammaticalUnitCompo
                 "type": "string",
                 "description": "The textual content of the \(String(describing: Self.self).lowercased())"
             ],
-            "children": makeArraySchema(items: Child.jsonSchema)
+            "children": makeArraySchema(items: ChildGrammaticalUnit.jsonSchema)
         ]
         
         return makeObjectSchema(
@@ -189,7 +194,7 @@ extension JSONSchemaProviding where Self: GrammaticalUnit & GrammaticalStructure
     }
 }
 
-extension JSONSchemaProviding where Self: GrammaticalUnit & GrammaticalStructureCategorizable & GrammaticalUnitComposable, Child: JSONSchemaProviding {
+extension JSONSchemaProviding where Self: GrammaticalUnit & GrammaticalStructureCategorizable & GrammaticalUnitComposable, ChildGrammaticalUnit: JSONSchemaProviding {
     public static var jsonSchema: [String: Any] {
         let properties = [
             "type": [
@@ -205,7 +210,7 @@ extension JSONSchemaProviding where Self: GrammaticalUnit & GrammaticalStructure
                 title: "\(String(describing: Self.self)) Structure Category",
                 description: "The grammatical structure category of the \(String(describing: Self.self).lowercased())"
             ),
-            "children": makeArraySchema(items: Child.jsonSchema)
+            "children": makeArraySchema(items: ChildGrammaticalUnit.jsonSchema)
         ]
         
         return makeObjectSchema(
@@ -215,7 +220,7 @@ extension JSONSchemaProviding where Self: GrammaticalUnit & GrammaticalStructure
     }
 }
 
-extension JSONSchemaProviding where Self: GrammaticalUnit & GrammaticalFunctionCategorizable & GrammaticalUnitComposable, Child: JSONSchemaProviding {
+extension JSONSchemaProviding where Self: GrammaticalUnit & GrammaticalFunctionCategorizable & GrammaticalUnitComposable, ChildGrammaticalUnit: JSONSchemaProviding {
     public static var jsonSchema: [String: Any] {
         let properties = [
             "type": [
@@ -231,7 +236,7 @@ extension JSONSchemaProviding where Self: GrammaticalUnit & GrammaticalFunctionC
                 title: "\(String(describing: Self.self)) Function Category",
                 description: "The grammatical function category of the \(String(describing: Self.self).lowercased())"
             ),
-            "children": makeArraySchema(items: Child.jsonSchema)
+            "children": makeArraySchema(items: ChildGrammaticalUnit.jsonSchema)
         ]
         
         return makeObjectSchema(
@@ -241,7 +246,7 @@ extension JSONSchemaProviding where Self: GrammaticalUnit & GrammaticalFunctionC
     }
 }
 
-extension JSONSchemaProviding where Self: GrammaticalUnit & GrammaticalStructureCategorizable & GrammaticalFunctionCategorizable & GrammaticalUnitComposable, Child: JSONSchemaProviding {
+extension JSONSchemaProviding where Self: GrammaticalUnit & GrammaticalStructureCategorizable & GrammaticalFunctionCategorizable & GrammaticalUnitComposable, ChildGrammaticalUnit: JSONSchemaProviding {
     public static var jsonSchema: [String: Any] {
         let properties = [
             "type": [
@@ -262,7 +267,7 @@ extension JSONSchemaProviding where Self: GrammaticalUnit & GrammaticalStructure
                 title: "\(String(describing: Self.self)) Function Category",
                 description: "The grammatical function category of the \(String(describing: Self.self).lowercased())"
             ),
-            "children": makeArraySchema(items: Child.jsonSchema)
+            "children": makeArraySchema(items: ChildGrammaticalUnit.jsonSchema)
         ]
         
         return makeObjectSchema(

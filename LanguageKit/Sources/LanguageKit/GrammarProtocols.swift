@@ -121,15 +121,10 @@ public protocol MorphemeCategoryProtocol: SyntacticCategoryProtocol { }
 
 // MARK: - Grammatical unit components
 
-//protocol GrammaticalUnitComposable: GrammaticalUnit {
-//    associatedtype GrammaticalComponentUnits: GrammaticalUnitCollection
-//    var children: [GrammaticalComponentUnits] { get set }
-//}
-
 public protocol GrammaticalUnitComposable: GrammaticalUnit {
-    associatedtype Child: GrammaticalUnit where Child.Language == Language
+    associatedtype ChildGrammaticalUnit: GrammaticalUnit where ChildGrammaticalUnit.Language == Language
 
-    var children: [Child] { get }
+    var children: [ChildGrammaticalUnit] { get }
     
     /// Returns all descendants of the specified grammatical unit type in the unit's structure.
     /// - Parameter type: The type of grammatical unit to search for
@@ -137,7 +132,7 @@ public protocol GrammaticalUnitComposable: GrammaticalUnit {
     func descendants<T: GrammaticalUnit>(ofType type: T.Type) -> [T]
 }
 
-extension GrammaticalUnitComposable where Self: GrammaticalUnit, Child: GrammaticalUnit {
+extension GrammaticalUnitComposable {
     public func descendants<T: GrammaticalUnit>(ofType type: T.Type) -> [T] {
         var results: [T] = []
 
@@ -155,43 +150,6 @@ extension GrammaticalUnitComposable where Self: GrammaticalUnit, Child: Grammati
     }
 }
 
-//// Default implementation for composable units
-//extension GrammaticalUnitComposable {
-//    public func descendants<T: GrammaticalUnit>(ofType type: T.Type) -> [T] {
-//        var results: [T] = []
-//
-//        // Process each child
-//        for child in children {
-//            // If the child matches the requested type, add it
-//            if let match = child as? T {
-//                results.append(match)
-//            }
-//            
-//            // Recursively check for descendants if the child is composable
-//            if let composableChild = child as? any GrammaticalUnitComposable {
-//                results.append(contentsOf: composableChild.descendants(ofType: type))
-//            }
-//        }
-//        
-//        return results
-//    }
-//}
-
-
-//// Protocol to represent either a single GrammaticalUnit type or an array of them
-//protocol GrammaticalUnitCollection {
-//    
-//}
-//
-//// Extension to make a single GrammaticalUnit conform to GrammaticalUnitCollection
-//extension GrammaticalUnit {
-//    func allUnits() -> [any GrammaticalUnit] { [self] }
-//}
-
-// Extension to make an array of GrammaticalUnits conform to GrammaticalUnitCollection
-//extension Array: GrammaticalUnitCollection where Element: GrammaticalUnit {
-//    func allUnits() -> [any GrammaticalUnit] { self }
-//}
 
 // MARK: - Grammatical unit typealiases
 
@@ -244,7 +202,6 @@ protocol Explainable {
     var explanation: String { get }
 }
 
-
 class Analysis<S: SyntacticUnit> {
     let unit: S
     
@@ -253,22 +210,22 @@ class Analysis<S: SyntacticUnit> {
     }
 }
 
-public protocol GrammaticalUnitCodable: Codable, GrammaticalUnit {
-    
-//    associatedtype CodingKeys: CodingKey
-   
-//    init(from decoder: Decoder) throws
-    
-}
-
-
-extension GrammaticalUnitCodable {
-    
-//    init<Language: SentenceStructured>(from decoder: Decoder) throws where Language.Sentence == Self {
-//        self = try Language.Sentence.init(from: decoder)
-//    }
-    
-}
+//public protocol GrammaticalUnitCodable: Codable, GrammaticalUnit {
+//    
+////    associatedtype CodingKeys: CodingKey
+//   
+////    init(from decoder: Decoder) throws
+//    
+//}
+//
+//
+//extension GrammaticalUnitCodable {
+//    
+////    init<Language: SentenceStructured>(from decoder: Decoder) throws where Language.Sentence == Self {
+////        self = try Language.Sentence.init(from: decoder)
+////    }
+//    
+//}
 
 //extension GrammaticalUnit where Language: SentenceStructured {
 //    

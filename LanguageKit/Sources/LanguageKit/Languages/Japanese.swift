@@ -9,11 +9,11 @@ import Foundation
 
 public struct Japanese: LanguageDescriptor {
     
-    public var name: String = "Japanese"
-    public var code: String = "ja"
+    public static let name: String = "Japanese"
+    public static let code: String = "ja"
     
-    public var wordOrder: WordOrder = .SOV
-    public var hasGrammaticalGender: Bool = false
+    public static let wordOrder: WordOrder = .SOV
+    public static let hasGrammaticalGender: Bool = false
     
 }
 

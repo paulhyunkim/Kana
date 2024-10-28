@@ -25,3 +25,6 @@ playground.xcworkspace
 
 # Swift Package Manager
 .build/
+/SchemaExamples.json
+/Playground.playground
+/Kana/PromptTemplates/

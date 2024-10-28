@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum WordOrder {
+public enum WordOrder: Sendable {
     // list languages that have these patterns
     case SVO
     case SOV
@@ -110,16 +110,16 @@ public protocol ParticleUsing {
 public protocol LanguageDescriptor {
 
     /// The name of the language (e.g., "English", "Japanese").
-    var name: String { get }
+    static var name: String { get }
 
     /// The ISO 639-1 code of the language (e.g., "en" for English, "ja" for Japanese).
-    var code: String { get }
+    static var code: String { get }
 
     /// The typical word order of the language, such as SOV (Subject-Object-Verb) or SVO (Subject-Verb-Object).
-    var wordOrder: WordOrder { get }
+    static var wordOrder: WordOrder { get }
 
     /// Indicates whether the language has grammatical gender distinctions (e.g., masculine, feminine).
-    var hasGrammaticalGender: Bool { get }
+    static var hasGrammaticalGender: Bool { get }
 }
 
 
