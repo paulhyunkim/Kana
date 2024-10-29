@@ -6,11 +6,35 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		DA55669B2CCC7CBF0031D988 /* LanguageKit in Frameworks */ = {isa = PBXBuildFile; productRef = DA2EFD0F2CC628B200078B96 /* LanguageKit */; };
+		DA8FD4ED2CB9E665007E5C87 /* OpenAI in Frameworks */ = {isa = PBXBuildFile; productRef = DA8FD4EC2CB9E665007E5C87 /* OpenAI */; };
+		DA94C3382CC9EC1800942940 /* SwiftAnthropic in Frameworks */ = {isa = PBXBuildFile; productRef = DA94C3372CC9EC1800942940 /* SwiftAnthropic */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		DA7377C92CD0455F00CCAFEF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DA8FD4C02CB8A066007E5C87 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DA8FD4C72CB8A066007E5C87;
+			remoteInfo = Kana;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		DA2D8DF02CC72B530051CD2F /* LanguageKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = LanguageKit; sourceTree = "<group>"; };
+		DA2D8DF22CC7405F0051CD2F /* Playground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Playground.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		DA7377C52CD0455F00CCAFEF /* KanaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KanaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA8FD4C82CB8A066007E5C87 /* Kana.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kana.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		DA7377C62CD0455F00CCAFEF /* KanaTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = KanaTests;
+			sourceTree = "<group>";
+		};
 		DA8FD4CA2CB8A066007E5C87 /* Kana */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = Kana;
@@ -19,10 +43,20 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		DA7377C22CD0455F00CCAFEF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DA8FD4C52CB8A066007E5C87 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA55669B2CCC7CBF0031D988 /* LanguageKit in Frameworks */,
+				DA8FD4ED2CB9E665007E5C87 /* OpenAI in Frameworks */,
+				DA94C3382CC9EC1800942940 /* SwiftAnthropic in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -32,7 +66,10 @@
 		DA8FD4BF2CB8A066007E5C87 = {
 			isa = PBXGroup;
 			children = (
+				DA2D8DF22CC7405F0051CD2F /* Playground.playground */,
+				DA2D8DF02CC72B530051CD2F /* LanguageKit */,
 				DA8FD4CA2CB8A066007E5C87 /* Kana */,
+				DA7377C62CD0455F00CCAFEF /* KanaTests */,
 				DA8FD4C92CB8A066007E5C87 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -41,6 +78,7 @@
 			isa = PBXGroup;
 			children = (
 				DA8FD4C82CB8A066007E5C87 /* Kana.app */,
+				DA7377C52CD0455F00CCAFEF /* KanaTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -48,6 +86,29 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		DA7377C42CD0455F00CCAFEF /* KanaTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DA7377CB2CD0455F00CCAFEF /* Build configuration list for PBXNativeTarget "KanaTests" */;
+			buildPhases = (
+				DA7377C12CD0455F00CCAFEF /* Sources */,
+				DA7377C22CD0455F00CCAFEF /* Frameworks */,
+				DA7377C32CD0455F00CCAFEF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				DA7377CA2CD0455F00CCAFEF /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				DA7377C62CD0455F00CCAFEF /* KanaTests */,
+			);
+			name = KanaTests;
+			packageProductDependencies = (
+			);
+			productName = KanaTests;
+			productReference = DA7377C52CD0455F00CCAFEF /* KanaTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		DA8FD4C72CB8A066007E5C87 /* Kana */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = DA8FD4D62CB8A067007E5C87 /* Build configuration list for PBXNativeTarget "Kana" */;
@@ -65,6 +126,13 @@
 			);
 			name = Kana;
 			packageProductDependencies = (
+				DA8FD4EC2CB9E665007E5C87 /* OpenAI */,
+				DA0606D22CC6259000B9FB70 /* LanguageKit */,
+				DA2EFD082CC6271E00078B96 /* LanguageKit */,
+				DA2EFD0B2CC6278500078B96 /* LanguageKit */,
+				DA2EFD0F2CC628B200078B96 /* LanguageKit */,
+				DA94C3372CC9EC1800942940 /* SwiftAnthropic */,
+				DA8BB12C2CCC7C1400E301DE /* LanguageKit */,
 			);
 			productName = Kana;
 			productReference = DA8FD4C82CB8A066007E5C87 /* Kana.app */;
@@ -80,6 +148,10 @@
 				LastSwiftUpdateCheck = 1600;
 				LastUpgradeCheck = 1600;
 				TargetAttributes = {
+					DA7377C42CD0455F00CCAFEF = {
+						CreatedOnToolsVersion = 16.0;
+						TestTargetID = DA8FD4C72CB8A066007E5C87;
+					};
 					DA8FD4C72CB8A066007E5C87 = {
 						CreatedOnToolsVersion = 16.0;
 					};
@@ -94,17 +166,30 @@
 			);
 			mainGroup = DA8FD4BF2CB8A066007E5C87;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				DA8FD4EB2CB9E665007E5C87 /* XCRemoteSwiftPackageReference "OpenAI" */,
+				DA94C3362CC9EC1800942940 /* XCRemoteSwiftPackageReference "SwiftAnthropic" */,
+				DA8BB12B2CCC7C1400E301DE /* XCLocalSwiftPackageReference "../LanguageKit" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = DA8FD4C92CB8A066007E5C87 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				DA8FD4C72CB8A066007E5C87 /* Kana */,
+				DA7377C42CD0455F00CCAFEF /* KanaTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		DA7377C32CD0455F00CCAFEF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DA8FD4C62CB8A066007E5C87 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -115,6 +200,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		DA7377C12CD0455F00CCAFEF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DA8FD4C42CB8A066007E5C87 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -124,7 +216,53 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		DA7377CA2CD0455F00CCAFEF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DA8FD4C72CB8A066007E5C87 /* Kana */;
+			targetProxy = DA7377C92CD0455F00CCAFEF /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		DA7377CC2CD0455F00CCAFEF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = S6QR3PLH96;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = peekay.KanaTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Kana.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Kana";
+			};
+			name = Debug;
+		};
+		DA7377CD2CD0455F00CCAFEF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = S6QR3PLH96;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = peekay.KanaTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Kana.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Kana";
+			};
+			name = Release;
+		};
 		DA8FD4D42CB8A067007E5C87 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -264,11 +402,18 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = peekay.Kana;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = NO;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -293,11 +438,18 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = peekay.Kana;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = NO;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -305,6 +457,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		DA7377CB2CD0455F00CCAFEF /* Build configuration list for PBXNativeTarget "KanaTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DA7377CC2CD0455F00CCAFEF /* Debug */,
+				DA7377CD2CD0455F00CCAFEF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		DA8FD4C32CB8A066007E5C87 /* Build configuration list for PBXProject "Kana" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -324,6 +485,65 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		DA8BB12B2CCC7C1400E301DE /* XCLocalSwiftPackageReference "../LanguageKit" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../LanguageKit;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		DA8FD4EB2CB9E665007E5C87 /* XCRemoteSwiftPackageReference "OpenAI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/MacPaw/OpenAI";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.3.0;
+			};
+		};
+		DA94C3362CC9EC1800942940 /* XCRemoteSwiftPackageReference "SwiftAnthropic" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/jamesrochabrun/SwiftAnthropic";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.8.4;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		DA0606D22CC6259000B9FB70 /* LanguageKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = LanguageKit;
+		};
+		DA2EFD082CC6271E00078B96 /* LanguageKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = LanguageKit;
+		};
+		DA2EFD0B2CC6278500078B96 /* LanguageKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = LanguageKit;
+		};
+		DA2EFD0F2CC628B200078B96 /* LanguageKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = LanguageKit;
+		};
+		DA8BB12C2CCC7C1400E301DE /* LanguageKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = LanguageKit;
+		};
+		DA8FD4EC2CB9E665007E5C87 /* OpenAI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DA8FD4EB2CB9E665007E5C87 /* XCRemoteSwiftPackageReference "OpenAI" */;
+			productName = OpenAI;
+		};
+		DA94C3372CC9EC1800942940 /* SwiftAnthropic */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DA94C3362CC9EC1800942940 /* XCRemoteSwiftPackageReference "SwiftAnthropic" */;
+			productName = SwiftAnthropic;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = DA8FD4C02CB8A066007E5C87 /* Project object */;
 }

@@ -9,6 +9,10 @@ import SwiftUI
 
 @main
 struct KanaApp: App {
+    
+//    @State var translationService = TranslationService()
+//    @State var theme = Theme()
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
