@@ -35,7 +35,7 @@ struct PromptBuilder {
     enum BuilderError: LocalizedError {
         case missingRequiredPlaceholders([String])
         case templateParsingFailed(String)
-        case unmatchedPlaceholders([String])
+        case unhandledPlaceholders([String])
         case invalidTemplateStructure(String)
         case fileNotFound(String)
         case fileReadError(String)
@@ -46,7 +46,7 @@ struct PromptBuilder {
                 return "Missing required placeholder values: \(names.joined(separator: ", "))"
             case .templateParsingFailed(let reason):
                 return "Failed to parse template XML: \(reason)"
-            case .unmatchedPlaceholders(let placeholders):
+            case .unhandledPlaceholders(let placeholders):
                 return "Found placeholders in template that aren't handled: \(placeholders.joined(separator: ", "))"
             case .invalidTemplateStructure(let reason):
                 return "Invalid template structure: \(reason)"
@@ -132,7 +132,7 @@ struct PromptBuilder {
         }
         
         if !unmatchedParams.isEmpty {
-            throw BuilderError.unmatchedPlaceholders(Array(unmatchedParams))
+            throw BuilderError.unhandledPlaceholders(Array(unmatchedParams))
         }
         
         if !missingRequiredParams.isEmpty {

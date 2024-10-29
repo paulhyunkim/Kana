@@ -10,13 +10,6 @@ import Foundation
 @testable import Kana
 import LanguageKit
 
-extension Bundle {
-    static var testBundle: Bundle {
-        class __ { }
-        return Bundle(for: __.self)
-    }
-}
-
 @Suite("PromptBuilder Success Tests")
 struct PromptBuilderSuccessTests {
     
@@ -30,7 +23,7 @@ struct PromptBuilderSuccessTests {
                 case optionalParam = "OPTIONAL_PARAM"
             }
             
-            static var templateName: String { "FullTestTemplate" }
+            static var templateName: String { "TestTemplate" }
             let sourceText = "Test content"
             let sourceLanguage = English.self
             let targetLanguage = Japanese.self
@@ -72,7 +65,7 @@ struct PromptBuilderSuccessTests {
                 case optionalText = "OPTIONAL_PARAM"
             }
             
-            static var templateName: String { "FullTestTemplate" }
+            static var templateName: String { "TestTemplate" }
             let sourceText = "Test content"
             let optionalText = "Optional value"
             let sourceLanguage = English.self
@@ -124,7 +117,7 @@ struct PromptBuilderErrorTests {
                 case optionalText = "OPTIONAL_PARAM"
             }
             
-            static var templateName: String { "FullTestTemplate" }
+            static var templateName: String { "TestTemplate" }
             let sourceText = "Test content"
             let optionalText = "Optional value"
             let sourceLanguage = English.self
@@ -205,8 +198,8 @@ struct PromptBuilderErrorTests {
         }
     }
 
-    @Test("Fails with unmatched placeholders")
-    func testUnmatchedPlaceholders() throws {
+    @Test("Fails with unhandled placeholders")
+    func testUnhandledPlaceholders() throws {
         struct TestTask: LanguageTask {
             enum PlaceholderKey: String {
                 case sourceText = "SOURCE_TEXT"
@@ -215,7 +208,7 @@ struct PromptBuilderErrorTests {
                 case optionalText = "OPTIONAL_PARAM"
             }
             
-            static var templateName: String { "FullTestTemplate" }
+            static var templateName: String { "TestTemplate" }
             let sourceText = "Test content"
             let optionalText = "Optional value"
             let sourceLanguage = English.self
@@ -233,7 +226,7 @@ struct PromptBuilderErrorTests {
         do {
             _ = try PromptBuilder.buildPrompt(task: TestTask(), bundle: .testBundle)
             Issue.record("Prompt building should have failed")
-        } catch PromptBuilder.BuilderError.unmatchedPlaceholders(let params) {
+        } catch PromptBuilder.BuilderError.unhandledPlaceholders(let params) {
             #expect(!params.isEmpty, "Should have unmatched parameters")
             #expect(params.contains("TARGET_LANGUAGE"), "Should identify unmatched parameter")
         } catch let error {
@@ -258,7 +251,6 @@ struct PromptBuilderErrorTests {
             }
         }
 
-        
         do {
             _ = try PromptBuilder.buildPrompt(task: TestTask(), bundle: .testBundle)
             #expect(Bool(false), "Expected validation to fail for invalid structure")
@@ -271,7 +263,6 @@ struct PromptBuilderErrorTests {
     }
     
 }
-
 
 struct Japanese: LanguageDescriptor {
     static var name: String = "Japanese"
@@ -287,59 +278,3 @@ struct English: LanguageDescriptor {
     static var hasGrammaticalGender: Bool = false
 }
 
-
-//
-//
-//// Basic task with only required parameters
-//struct BasicTestTask: LanguageTask {
-//    enum PlaceholderKey: String {
-//        case targetLanguage = "TARGET_LANGUAGE"
-//        case sourceText = "SOURCE_TEXT"
-//    }
-//    
-//    static var templateName: String { "BasicTestTemplate" }
-//    
-//    let sourceText: String
-//    
-//    var placeholderValues: [PlaceholderKey: String?] {
-//        [
-//            .targetLanguage: TestLanguage.name,
-//            .sourceText: sourceText
-//        ]
-//    }
-//}
-//
-//// Task with optional parameters
-//struct FullTestTask: LanguageTask {
-//    enum PlaceholderKey: String {
-//        case targetLanguage = "TARGET_LANGUAGE"
-//        case sourceText = "SOURCE_TEXT"
-//        case optionalParam = "OPTIONAL_PARAM"
-//    }
-//    
-//    static var templateName: String { "FullTestTemplate" }
-//    
-//    let sourceText: String
-//    let optionalParam: String?
-//    
-//    var placeholderValues: [PlaceholderKey: String?] {
-//        [
-//            .targetLanguage: TestLanguage.name,
-//            .sourceText: sourceText,
-//            .optionalParam: optionalParam
-//        ]
-//    }
-//}
-//
-//// Task for testing validation failures
-//struct InvalidTestTask: LanguageTask {
-//    enum PlaceholderKey: String {
-//        case invalidParam = "INVALID_PARAM"
-//    }
-//    
-//    static var templateName: String { "InvalidTestTemplate" }
-//    
-//    var placeholderValues: [PlaceholderKey: String?] {
-//        [:]  // Empty to trigger validation failures
-//    }
-//}
