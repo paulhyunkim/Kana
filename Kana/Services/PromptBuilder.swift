@@ -36,23 +36,20 @@ struct PromptBuilder {
         case missingRequiredPlaceholders([String])
         case templateParsingFailed(String)
         case unmatchedPlaceholders([String])
-        case invalidTemplate(String)
-        case missingTemplateSection(String)
+        case invalidTemplateStructure(String)
         case fileNotFound(String)
         case fileReadError(String)
         
         var errorDescription: String? {
             switch self {
             case .missingRequiredPlaceholders(let names):
-                return "Missing required placeholders: \(names.joined(separator: ", "))"
+                return "Missing required placeholder values: \(names.joined(separator: ", "))"
             case .templateParsingFailed(let reason):
-                return "Failed to parse template: \(reason)"
+                return "Failed to parse template XML: \(reason)"
             case .unmatchedPlaceholders(let placeholders):
                 return "Found placeholders in template that aren't handled: \(placeholders.joined(separator: ", "))"
-            case .invalidTemplate(let reason):
+            case .invalidTemplateStructure(let reason):
                 return "Invalid template structure: \(reason)"
-            case .missingTemplateSection(let section):
-                return "Missing required template section: \(section)"
             case .fileNotFound(let name):
                 return "Could not find template file: \(name)"
             case .fileReadError(let reason):
@@ -61,83 +58,85 @@ struct PromptBuilder {
         }
     }
     
-    static func buildPrompt<Task: LanguageTask>(task: Task) throws -> Prompt {
-        let template = try loadTemplate(for: Task.templateName)
-        try validateParameters(in: template, for: Task.self)
-        try validateRequiredValues(for: task, in: template)
-        
+    static func buildPrompt<Task: LanguageTask>(task: Task, bundle: Bundle = .main) throws -> Prompt {
+        let template = try loadTemplate(for: Task.templateName, in: bundle)
+        try validateTemplate(template, for: task)
         return buildMessages(for: task, from: template)
     }
     
-    // MARK: - Private Template Loading
+    // MARK: - Private Template Loading & Validation
     
-    private static func loadTemplate(for name: String) throws -> PromptTemplate {
-        guard let templateURL = Bundle.main.url(forResource: name, withExtension: "xml") else {
+    private static func loadTemplate(for name: String, in bundle: Bundle) throws -> PromptTemplate {
+        guard let templateURL = bundle.url(forResource: name, withExtension: "xml") else {
             throw BuilderError.fileNotFound(name)
         }
         
         do {
             let xmlString = try String(contentsOf: templateURL, encoding: .utf8)
             let parser = XMLTemplateParser()
-            return try parser.parse(xmlString)
+            let template = try parser.parse(xmlString)
+            
+            guard isValidStructure(template) else {
+                throw BuilderError.invalidTemplateStructure("Invalid template structure")
+            }
+            
+            return template
         } catch let error as BuilderError {
             throw error
         } catch {
-            throw BuilderError.fileReadError(error.localizedDescription)
+            throw BuilderError.templateParsingFailed(error.localizedDescription)
         }
     }
     
-    // MARK: - Private Validation
+    private static func isValidStructure(_ template: PromptTemplate) -> Bool {
+        let hasValidSystemMessage = !template.systemTemplate.sections.isEmpty &&
+            template.systemTemplate.sections.allSatisfy { !$0.name.isEmpty }
+        
+        let hasValidUserMessage = !template.userTemplate.sections.isEmpty &&
+            template.userTemplate.sections.allSatisfy { !$0.name.isEmpty }
+        
+        let hasValidExamples = template.examples.allSatisfy { example in
+            !example.userTemplate.sections.isEmpty &&
+            example.userTemplate.sections.allSatisfy { !$0.name.isEmpty } &&
+            !example.assistantTemplate.sections.isEmpty &&
+            example.assistantTemplate.sections.allSatisfy { !$0.name.isEmpty }
+        }
+        
+        return hasValidSystemMessage && hasValidUserMessage &&
+            (template.examples.isEmpty || hasValidExamples)
+    }
     
-    private static func validateParameters<Task: LanguageTask>(in template: PromptTemplate, for taskType: Task.Type) throws {
+    private static func validateTemplate<Task: LanguageTask>(_ template: PromptTemplate, for task: Task) throws {
         var unmatchedParams = Set<String>()
+        var missingRequiredParams = Set<String>()
         var handledParams = Set<Task.PlaceholderKey>()
         
-        func processSection(_ section: PromptTemplate.Section) {
+        func validateSection(_ section: PromptTemplate.Section) {
             section.requiredParameters.forEach { param in
                 if let key = Task.PlaceholderKey(rawValue: param) {
                     handledParams.insert(key)
+                    if task.placeholderValues[key] == nil {
+                        missingRequiredParams.insert(param)
+                    }
                 } else {
                     unmatchedParams.insert(param)
                 }
             }
         }
         
-        template.systemTemplate.sections.forEach(processSection)
-        template.userTemplate.sections.forEach(processSection)
+        template.systemTemplate.sections.forEach(validateSection)
+        template.userTemplate.sections.forEach(validateSection)
         template.examples.forEach { example in
-            example.userTemplate.sections.forEach(processSection)
-            example.assistantTemplate.sections.forEach(processSection)
+            example.userTemplate.sections.forEach(validateSection)
+            example.assistantTemplate.sections.forEach(validateSection)
         }
         
         if !unmatchedParams.isEmpty {
             throw BuilderError.unmatchedPlaceholders(Array(unmatchedParams))
         }
-    }
-    
-    private static func validateRequiredValues<Task: LanguageTask>(for task: Task, in template: PromptTemplate) throws {
-        var requiredParams = Set<String>()
         
-        func addRequiredParams(from sections: [PromptTemplate.Section]) {
-            sections.forEach { section in
-                section.requiredParameters.forEach { requiredParams.insert($0) }
-            }
-        }
-        
-        addRequiredParams(from: template.systemTemplate.sections)
-        addRequiredParams(from: template.userTemplate.sections)
-        template.examples.forEach { example in
-            addRequiredParams(from: example.userTemplate.sections)
-            addRequiredParams(from: example.assistantTemplate.sections)
-        }
-        
-        let missingParams = requiredParams
-            .compactMap { Task.PlaceholderKey(rawValue: $0) }
-            .filter { task.placeholderValues[$0] == nil }
-            .map(\.rawValue)
-        
-        if !missingParams.isEmpty {
-            throw BuilderError.missingRequiredPlaceholders(missingParams)
+        if !missingRequiredParams.isEmpty {
+            throw BuilderError.missingRequiredPlaceholders(Array(missingRequiredParams))
         }
     }
     
@@ -150,20 +149,15 @@ struct PromptBuilder {
                 result[pair.key.rawValue] = pair.value
             }
         
-        let systemMessage = buildMessage(from: template.systemTemplate, with: validValues)
-        let userMessage = buildMessage(from: template.userTemplate, with: validValues)
-        
-        let examplePairs = template.examples.map { example in
-            Prompt.ExampleMessagePair(
-                userMessage: buildMessage(from: example.userTemplate, with: validValues),
-                assistantMessage: buildMessage(from: example.assistantTemplate, with: validValues)
-            )
-        }
-        
         return Prompt(
-            systemMessage: systemMessage,
-            userMessage: userMessage,
-            exampleMessagePairs: examplePairs
+            systemMessage: buildMessage(from: template.systemTemplate, with: validValues),
+            userMessage: buildMessage(from: template.userTemplate, with: validValues),
+            exampleMessagePairs: template.examples.map { example in
+                .init(
+                    userMessage: buildMessage(from: example.userTemplate, with: validValues),
+                    assistantMessage: buildMessage(from: example.assistantTemplate, with: validValues)
+                )
+            }
         )
     }
     
@@ -176,39 +170,27 @@ struct PromptBuilder {
     }
     
     private static func shouldIncludeSection(_ section: PromptTemplate.Section, with values: [String: String]) -> Bool {
-        let isEmpty = section.content.trimmingCharacters(in: .whitespaces).isEmpty
-        
-        // Always include non-empty sections with no parameters
         if section.requiredParameters.isEmpty && section.optionalParameters.isEmpty {
-            return !isEmpty
+            return !section.content.trimmingCharacters(in: .whitespaces).isEmpty
         }
         
-        // Include if it has any required parameters (which we know have values due to validation)
         if !section.requiredParameters.isEmpty {
             return true
         }
         
-        // For sections with only optional parameters, include only if any parameter has a value
-        if !section.optionalParameters.isEmpty {
-            return section.optionalParameters.contains { param in
-                values[param] != nil
-            }
-        }
-        
-        return false
+        return section.optionalParameters.contains { values[$0] != nil }
     }
     
     private static func buildSection(_ section: PromptTemplate.Section, with values: [String: String]) -> String {
         var content = section.content
         
-        // Replace all parameters that have values
-        for param in section.requiredParameters.union(section.optionalParameters) {
+        let params = section.requiredParameters.union(section.optionalParameters)
+        for param in params {
             if let value = values[param] {
                 content = content.replacingOccurrences(of: "{{\(param)}}", with: value)
             }
         }
         
-        // Clean up the content
         let processedContent = content
             .components(separatedBy: .newlines)
             .map { $0.trimmingCharacters(in: .whitespaces) }
@@ -231,7 +213,7 @@ fileprivate class XMLTemplateParser: NSObject, XMLParserDelegate {
         case section
         case message
         case example
-        case template = "prompttemplate"
+        case promptTemplate
     }
     
     private enum Attribute: String {
@@ -262,10 +244,26 @@ fileprivate class XMLTemplateParser: NSObject, XMLParserDelegate {
         let parser = XMLParser(data: data)
         parser.delegate = self
         
-        guard parser.parse(),
-              let systemTemplate = systemTemplate,
-              let userTemplate = userTemplate else {
-            throw PromptBuilder.BuilderError.templateParsingFailed("Failed to parse required template sections")
+        guard parser.parse() else {
+            throw PromptBuilder.BuilderError.templateParsingFailed(parser.parserError?.localizedDescription ?? "Unknown parsing error")
+        }
+        
+        // Validate required template components
+        guard let systemTemplate = systemTemplate else {
+            throw PromptBuilder.BuilderError.invalidTemplateStructure("Missing system message template")
+        }
+        
+        guard let userTemplate = userTemplate else {
+            throw PromptBuilder.BuilderError.invalidTemplateStructure("Missing user message template")
+        }
+        
+        // Validate message structures
+        guard isValidMessageStructure(systemTemplate) else {
+            throw PromptBuilder.BuilderError.invalidTemplateStructure("Invalid system message structure")
+        }
+        
+        guard isValidMessageStructure(userTemplate) else {
+            throw PromptBuilder.BuilderError.invalidTemplateStructure("Invalid user message structure")
         }
         
         return PromptTemplate(
@@ -273,6 +271,10 @@ fileprivate class XMLTemplateParser: NSObject, XMLParserDelegate {
             userTemplate: userTemplate,
             examples: examples
         )
+    }
+
+    private func isValidMessageStructure(_ message: PromptTemplate.MessageTemplate) -> Bool {
+        !message.sections.isEmpty && message.sections.allSatisfy { !$0.name.isEmpty }
     }
     
     func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String: String] = [:]) {
@@ -286,7 +288,7 @@ fileprivate class XMLTemplateParser: NSObject, XMLParserDelegate {
             handleMessageStart(attributes: attributeDict)
         case .example:
             currentExample = (user: nil, assistant: nil)
-        case .template:
+        case .promptTemplate:
             break
         }
     }
@@ -327,7 +329,7 @@ fileprivate class XMLTemplateParser: NSObject, XMLParserDelegate {
             finalizeMessageElement()
         case .example:
             finalizeExampleElement()
-        case .template:
+        case .promptTemplate:
             break
         }
     }

@@ -23,7 +23,7 @@ struct Prompt {
         var assistantMessage: String
     }
     
-    enum Message {
+    enum Message: Equatable {
         case system(String)
         case user(String)
         case assistant(String)
