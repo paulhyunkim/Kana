@@ -9,12 +9,21 @@ import Foundation
 @preconcurrency import OpenAI
 import LanguageKit
 
-fileprivate extension LLMPrompt {
+fileprivate extension Prompt {
  
-    func toChatQuery(model: Model) -> ChatQuery {
-        ChatQuery(messages: [
-            .system(.init(content: systemMessage))
-        ], model: model)
+    func toChatQuery(model: Model) -> ChatQuery {        
+        let openAIMessages: [ChatQuery.ChatCompletionMessageParam] = messages.compactMap {
+            switch $0 {
+            case .system(let content):
+                return ChatQuery.ChatCompletionMessageParam(role: .system, content: content)
+            case .user(let content):
+                return ChatQuery.ChatCompletionMessageParam(role: .user, content: content)
+            case .assistant(let content):
+                return ChatQuery.ChatCompletionMessageParam(role: .assistant, content: content)
+            }
+        }
+        
+        return ChatQuery(messages: openAIMessages, model: model)
     }
     
 }
@@ -34,7 +43,7 @@ class OpenAIClient: LLMClient, @unchecked Sendable {
         self.service = OpenAI(apiToken: apiKey)
     }
     
-    func send(prompt: LLMPrompt, model: Model) -> AsyncThrowingStream<String, any Error> {
+    func send(prompt: Prompt, model: Model) -> AsyncThrowingStream<String, any Error> {
         AsyncThrowingStream { continuation in
             Task {
                 let query = prompt.toChatQuery(model: model)
@@ -56,7 +65,7 @@ class OpenAIClient: LLMClient, @unchecked Sendable {
         }
     }
     
-    func send(prompt: LLMPrompt, model: Model) async throws -> String {
+    func send(prompt: Prompt, model: Model) async throws -> String {
         let query = prompt.toChatQuery(model: model)
         let result = try await service.chats(query: query)
         guard let message = result.choices.first?.message else {
@@ -74,7 +83,7 @@ class OpenAIClient: LLMClient, @unchecked Sendable {
         }
     }
     
-    func send<ResultType: Decodable & JSONSchemaProviding>(prompt: LLMPrompt, model: Model) async throws -> ResultType {
+    func send<ResultType: Decodable & JSONSchemaProviding>(prompt: Prompt, model: Model) async throws -> ResultType {
         let result = try await send(prompt: prompt, model: model)
         let jsonSchema = ResultType.jsonSchema
         fatalError()

@@ -38,9 +38,9 @@ struct LLMConversation {
 /// Protocol defining the interface for a language model client.
 protocol LLMClient {
     associatedtype ModelType
-    func send(prompt: LLMPrompt, model: ModelType) -> AsyncThrowingStream<String, Error>
-    func send(prompt: LLMPrompt, model: ModelType) async throws -> String
-    func send<ResultType: Decodable & JSONSchemaProviding>(prompt: LLMPrompt, model: ModelType) async throws -> ResultType
+    func send(prompt: Prompt, model: ModelType) -> AsyncThrowingStream<String, Error>
+    func send(prompt: Prompt, model: ModelType) async throws -> String
+    func send<ResultType: Decodable & JSONSchemaProviding>(prompt: Prompt, model: ModelType) async throws -> ResultType
 }
 
 // maybe this needs a different name. im thinking an adjective that describes what the conformance provides. like -ible, -able, -ing protocol suffixes

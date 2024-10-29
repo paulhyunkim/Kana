@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import LanguageKit
 
 struct ContentView: View {
     
@@ -17,6 +18,24 @@ struct ContentView: View {
             Text("content")
         } detail: {
             Text("detail")
+        }
+        .task {
+            do {
+//                let apikey = try KeychainManager().getAPIKey(forKey: "OpenAIAPIKey")
+//                let client = OpenAIClient(apiKey: apikey)
+//                let task = TranslationTask<Japanese>(sourceText: "Hello, world!")
+//                let prompt = try PromptBuilder.buildPrompt(task: task)
+//                let response = try await client.send(prompt: prompt, model: .gpt4)
+                
+                let apikey = try KeychainManager().getAPIKey(forKey: "AnthropicAPIKey")
+                let client = AnthropicClient(apiKey: apikey)
+                let task = TranslationTask<Japanese>(sourceText: "Hello, world!")
+                let prompt = try PromptBuilder.buildPrompt(task: task)
+                let response = try await client.send(prompt: prompt, model: .claude35Sonnet)
+                print(response)
+            } catch {
+                print(error)
+            }
         }
 
 //#if os(macOS)

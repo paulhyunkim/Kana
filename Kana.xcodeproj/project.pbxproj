@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		DA55669B2CCC7CBF0031D988 /* LanguageKit in Frameworks */ = {isa = PBXBuildFile; productRef = DA2EFD0F2CC628B200078B96 /* LanguageKit */; };
+		DA7379562CD0703E00CCAFEF /* LanguageKit in Frameworks */ = {isa = PBXBuildFile; productRef = DA0606D22CC6259000B9FB70 /* LanguageKit */; };
+		DA7379572CD0703E00CCAFEF /* LanguageKit in Frameworks */ = {isa = PBXBuildFile; productRef = DA2EFD082CC6271E00078B96 /* LanguageKit */; };
+		DA7379582CD0703E00CCAFEF /* LanguageKit in Frameworks */ = {isa = PBXBuildFile; productRef = DA2EFD0B2CC6278500078B96 /* LanguageKit */; };
+		DA7379592CD0703E00CCAFEF /* LanguageKit in Frameworks */ = {isa = PBXBuildFile; productRef = DA8BB12C2CCC7C1400E301DE /* LanguageKit */; };
+		DA7379A32CD070A400CCAFEF /* Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = DA7379A22CD070A400CCAFEF /* Config.plist */; };
 		DA8FD4ED2CB9E665007E5C87 /* OpenAI in Frameworks */ = {isa = PBXBuildFile; productRef = DA8FD4EC2CB9E665007E5C87 /* OpenAI */; };
 		DA94C3382CC9EC1800942940 /* SwiftAnthropic in Frameworks */ = {isa = PBXBuildFile; productRef = DA94C3372CC9EC1800942940 /* SwiftAnthropic */; };
 /* End PBXBuildFile section */
@@ -26,6 +31,7 @@
 		DA2D8DF02CC72B530051CD2F /* LanguageKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = LanguageKit; sourceTree = "<group>"; };
 		DA2D8DF22CC7405F0051CD2F /* Playground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Playground.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		DA7377C52CD0455F00CCAFEF /* KanaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KanaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		DA7379A22CD070A400CCAFEF /* Config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Config.plist; sourceTree = "<group>"; };
 		DA8FD4C82CB8A066007E5C87 /* Kana.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kana.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -54,6 +60,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA7379592CD0703E00CCAFEF /* LanguageKit in Frameworks */,
+				DA7379582CD0703E00CCAFEF /* LanguageKit in Frameworks */,
+				DA7379572CD0703E00CCAFEF /* LanguageKit in Frameworks */,
+				DA7379562CD0703E00CCAFEF /* LanguageKit in Frameworks */,
 				DA55669B2CCC7CBF0031D988 /* LanguageKit in Frameworks */,
 				DA8FD4ED2CB9E665007E5C87 /* OpenAI in Frameworks */,
 				DA94C3382CC9EC1800942940 /* SwiftAnthropic in Frameworks */,
@@ -66,6 +76,7 @@
 		DA8FD4BF2CB8A066007E5C87 = {
 			isa = PBXGroup;
 			children = (
+				DA7379A22CD070A400CCAFEF /* Config.plist */,
 				DA2D8DF22CC7405F0051CD2F /* Playground.playground */,
 				DA2D8DF02CC72B530051CD2F /* LanguageKit */,
 				DA8FD4CA2CB8A066007E5C87 /* Kana */,
@@ -194,6 +205,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA7379A32CD070A400CCAFEF /* Config.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
