@@ -7,11 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		DA0606D32CC6259000B9FB70 /* LanguageKit in Frameworks */ = {isa = PBXBuildFile; productRef = DA0606D22CC6259000B9FB70 /* LanguageKit */; };
-		DA5566992CCC7CBF0031D988 /* LanguageKit in Frameworks */ = {isa = PBXBuildFile; productRef = DA2EFD082CC6271E00078B96 /* LanguageKit */; };
-		DA55669A2CCC7CBF0031D988 /* LanguageKit in Frameworks */ = {isa = PBXBuildFile; productRef = DA2EFD0B2CC6278500078B96 /* LanguageKit */; };
 		DA55669B2CCC7CBF0031D988 /* LanguageKit in Frameworks */ = {isa = PBXBuildFile; productRef = DA2EFD0F2CC628B200078B96 /* LanguageKit */; };
-		DA8BB12D2CCC7C1400E301DE /* LanguageKit in Frameworks */ = {isa = PBXBuildFile; productRef = DA8BB12C2CCC7C1400E301DE /* LanguageKit */; };
 		DA8FD4ED2CB9E665007E5C87 /* OpenAI in Frameworks */ = {isa = PBXBuildFile; productRef = DA8FD4EC2CB9E665007E5C87 /* OpenAI */; };
 		DA94C3382CC9EC1800942940 /* SwiftAnthropic in Frameworks */ = {isa = PBXBuildFile; productRef = DA94C3372CC9EC1800942940 /* SwiftAnthropic */; };
 /* End PBXBuildFile section */
@@ -59,12 +55,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				DA55669B2CCC7CBF0031D988 /* LanguageKit in Frameworks */,
-				DA55669A2CCC7CBF0031D988 /* LanguageKit in Frameworks */,
-				DA5566992CCC7CBF0031D988 /* LanguageKit in Frameworks */,
 				DA8FD4ED2CB9E665007E5C87 /* OpenAI in Frameworks */,
-				DA0606D32CC6259000B9FB70 /* LanguageKit in Frameworks */,
 				DA94C3382CC9EC1800942940 /* SwiftAnthropic in Frameworks */,
-				DA8BB12D2CCC7C1400E301DE /* LanguageKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
